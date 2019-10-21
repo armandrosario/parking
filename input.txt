@@ -1,0 +1,10 @@
+3
+20
+Enter:A @11:00am
+Enter:B @11:30am
+Enter:C @12:00pm
+Enter:D @12:45pm
+Enter:E @1:00pm
+Leaves:A
+Leaves:C
+Leaves:B
