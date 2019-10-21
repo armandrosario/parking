@@ -52,9 +52,9 @@ public class ParkingLot {
 			}
 		}
 		if(left==true) {
-			System.out.println(c.getName()+" is leaving.");
-			System.out.println("Time of entrance:"+c.getTicket().getTime());
-			System.out.println("$"+c.getTicket().getPrice()+" made.");
+			System.out.print(c.getName()+" is leaving.");
+			System.out.print(" Time of entrance:"+c.getTicket().getTime());
+			System.out.println(" $"+c.getTicket().getPrice()+" made.");
 			profit+=cost;
 			totalCars--;
 			if(totalCars==0) {
@@ -76,7 +76,7 @@ public class ParkingLot {
 			}
 		}
 		else {
-			System.out.println("Parking lot full.");
+			System.out.println("Parking lot full Car " +car.getName()+" cannot enter.");
 		}
 	}
 	
