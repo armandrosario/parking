@@ -1,0 +1,17 @@
+Group:A
+2
+20
+Group:B
+2
+15
+Enter:A @11:00am
+Enter:B @11:30am
+Enter:C @12:00pm
+Group:C
+1
+10
+Enter:D @12:45pm
+Enter:E @1:00pm
+Enter:F @2:00pm
+Cost Interest
+Space Interest
