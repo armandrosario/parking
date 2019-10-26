@@ -7,7 +7,12 @@ public class main {
 		String option="";
 		File file= new File("C:\\Users\\arman_qia17n4\\eclipse-workspace\\Parking Lot\\src\\input.txt");//type in appropriate testing file name
 		Scanner input = new Scanner(file);
-		ParkingLot parkinglot=new ParkingLot(input.nextInt(),input.nextInt());
+		ArrayList<ParkingLot> lots= new ArrayList<>();
+		ArrayList<String>names=new ArrayList<>();
+		String plName=input.next();
+		plName=plName.substring(plName.indexOf(":")+1,plName.length());
+		ParkingLot parkinglot=new ParkingLot(input.nextInt(),input.nextInt(),plName);
+		lots.add(parkinglot);
 		while(input.hasNextLine()) {
 			option =input.nextLine();
 			if(option.indexOf("Enter")!=-1) {
@@ -17,26 +22,86 @@ public class main {
 					name+=option.substring(i,i+1);
 					i++;
 				}
-				Car aCar=new Car(name);
-				String time="";
-				i=option.indexOf("@")+1;
-				while(i<option.length()&&! option.substring(i,i+1).equals(" ")) {
-					time+=option.substring(i,i+1);
-					i++;
+				if(names.contains(name)) {
+					System.out.println("Invalid name. Car "+name+ " cannot be added");
 				}
-				Ticket ticket=new Ticket(parkinglot.getCost(),time);
-				aCar.setTicket(ticket);
-				parkinglot.enter(aCar, time);
+				else {
+					names.add(name);
+					Car aCar=new Car(name);
+					String time="";
+					i=option.indexOf("@")+1;
+					while(i<option.length()&&! option.substring(i,i+1).equals(" ")) {
+						time+=option.substring(i,i+1);
+						i++;
+					}
+					Ticket ticket=new Ticket(parkinglot.getCost(),time);
+					aCar.setTicket(ticket);
+					//determine lowest price
+					int lowest=lots.get(0).getCost();
+					int index=0;
+					for(int c=1;c<lots.size();c++) {
+						if(lots.get(c).getCost()<lowest && lots.get(c).isFull()==false) {
+							index=c;
+							lowest=lots.get(c).getCost();
+						}
+					}
+					if(! lots.get(index).isFull()) {
+						lots.get(index).enter(aCar, time);
+					}
+					else {
+						System.out.println("All lots full Car " + name+" cannot enter.");
+					}
+				}
 			}
 			else if(option.indexOf("Leaves")!=-1) {
 					String name="";
 					int i=option.indexOf(":")+1;
+					int a=0,b=0;
 					while(i<option.length()) {
 						name+=option.substring(i,i+1);
 						i++;
 					}
-					parkinglot.leave(name);
+					for(int r=0;r<lots.size();r++) {
+						ArrayList<Car>cars=lots.get(r).getCars();
+						for(int c=0;c<cars.size();c++) {
+							if(cars.get(c).getName().equals(name)) {
+								a=r;
+								b=c;
+							}
+						}
+					}
+					lots.get(a).leave(name);
 				
+			}
+			else if(option.indexOf("Group")!=-1) {
+				plName=option.substring(option.indexOf(":")+1,option.length());
+				int index=-1;
+				for(int i=0;i<lots.size();i++) {
+					if(lots.get(i).getName().equals(plName)) {
+						index=i;
+					}
+				}
+				if(index==-1) {
+					parkinglot=new ParkingLot(input.nextInt(),input.nextInt(),plName);
+					lots.add(parkinglot);
+				}
+				else {
+					lots.get(index).setCapacity(input.nextInt());
+					lots.get(index).setCost(input.nextInt());
+					System.out.println("Lot "+plName+" cost set to: "+lots.get(index).getCost());
+				}
+			}
+			else if(option.indexOf("Cost Interest")!=-1) {
+				System.out.println("***Parking Lot Costs***");
+				for(int i=0;i<lots.size();i++) {
+					System.out.println(lots.get(i).getName()+" Cost: "+lots.get(i).getCost());
+				}
+			}
+			else if(option.indexOf("Space Interest")!=-1) {
+				System.out.println("***Parking Lot Space Availability***");
+				for(int i=0;i<lots.size();i++) {
+					lots.get(i).showSpace();
+				}
 			}
 			/*else if(option==3) {
 				parkinglot.getProfit();
@@ -136,4 +201,5 @@ public class main {
 	}
 
 }
+
 
