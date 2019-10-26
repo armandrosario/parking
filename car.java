@@ -15,7 +15,6 @@ public class Car {
 		ticket=t;
 	}
 	public void leave(String t) {
-		System.out.println(licensePlate + ":leaving parking lot at" +t);
 		ticket=null;
 	}
 	public String getName() {
@@ -28,3 +27,4 @@ public class Car {
 		return ticket;
 	}
 }
+
